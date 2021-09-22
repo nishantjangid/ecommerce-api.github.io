@@ -56,13 +56,13 @@ router.post("/login", async (req, res)=>{
     if(!validPass) return res.status(400).send("Invalid password");
 
     //Create and sign a token
-    const token = jwt.sign({_id : user._id}, process.env.TOKEN_SECRET);
+    const token = jwt.sign({_id : user._id}, process.env.TOKEN_SECRET,{expiresIn : "2d"});
     res.header("auth-token", token).send({token : token});
 })
 
 router.get("/users",authToken ,async (req, res)=>{
-
-    
+    const Users = await User.find({});
+    res.send({Users});
 })
 
 module.exports = router;
